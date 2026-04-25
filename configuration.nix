@@ -107,6 +107,26 @@
 
   programs.nix-ld.enable = true;
 
+  # Load nvidia driver for Xorg and Wayland
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    # Use the stable production driver (recommended)
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    # Modesetting is required for most setups
+    modesetting.enable = true;
+
+    # Power management (optional, helpful for laptops)
+    powerManagement.enable = false;
+
+    # Open-source kernel module (beta, for Turing+ GPUs)
+    open = false;
+
+    # nvidia-settings GUI tool
+    nvidiaSettings = true;
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
